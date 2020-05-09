@@ -1,0 +1,15 @@
+{
+  "app_name": "fetcher",
+  "log_preset": "development",
+  "listen_url": ":8080",
+  "http_client": {
+    "timeout": "10s"
+  },
+  "stocks": {
+    "adapter": "finnhub",
+    "finnhub": {
+      "base_url": "https://finnhub.io/api/v1",
+      "token": "auth_token"
+    }
+  }
+}
