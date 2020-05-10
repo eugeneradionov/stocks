@@ -32,10 +32,4 @@ func main() {
 	if err != nil {
 		logger.Get().Fatal("Failed to load services", zap.Error(err))
 	}
-
-	extErr := services.Get().Stocks().GetSymbols("US")
-	if extErr != nil {
-		panic(extErr)
-	}
-	// time.Sleep(time.Hour) // TODO: REMOVE!
 }
