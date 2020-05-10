@@ -18,3 +18,5 @@
 */config.json
 
 */go.sum
+
+.docker/rabbitmq
