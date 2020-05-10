@@ -22,7 +22,7 @@ func (f Finnhub) sendRequest(path string, params map[string]string) (_ []byte, e
 
 	f.prepareReqParams(req, params)
 
-	logger.Get().Info("finnhub send request", zap.String("path", path), zap.Any("params", params))
+	logger.Get().Info("finnhub sending request", zap.String("path", path), zap.Any("params", params))
 
 	resp, err := f.httpClient.Do(req) // nolint:bodyclose
 	if err != nil {

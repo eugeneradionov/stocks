@@ -6,6 +6,7 @@ import (
 	"github.com/eugeneradionov/stocks/fetcher/config"
 	"github.com/eugeneradionov/stocks/fetcher/logger"
 	"github.com/eugeneradionov/stocks/fetcher/services"
+	"github.com/eugeneradionov/stocks/fetcher/transport/rabbitmq"
 	"go.uber.org/zap"
 )
 
@@ -22,8 +23,19 @@ func main() {
 		log.Fatalf("Failed to laod logger: %s", err.Error())
 	}
 
-	err = services.Load(config.Get())
+	err = rabbitmq.Load(config.Get().RabbitMQ)
+	if err != nil {
+		logger.Get().Fatal("Failed to connect to rabbit", zap.Error(err))
+	}
+
+	err = services.Load(config.Get(), rabbitmq.Get())
 	if err != nil {
 		logger.Get().Fatal("Failed to load services", zap.Error(err))
 	}
+
+	extErr := services.Get().Stocks().GetSymbols("US")
+	if extErr != nil {
+		panic(extErr)
+	}
+	// time.Sleep(time.Hour) // TODO: REMOVE!
 }

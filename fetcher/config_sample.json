@@ -11,5 +11,11 @@
       "base_url": "https://finnhub.io/api/v1",
       "token": "auth_token"
     }
+  },
+  "rabbitmq": {
+    "host": "localhost",
+    "port": "5672",
+    "user": "rabbit",
+    "password": "12345"
   }
 }

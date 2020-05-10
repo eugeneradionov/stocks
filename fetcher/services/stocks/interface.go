@@ -11,8 +11,8 @@ type Service interface {
 	// GetExchanges returns available exchanges list.
 	GetExchanges() (exchanges []models.Exchange, extErr exterrors.ExtError)
 
-	// GetSymbols returns available symbols for exchange
-	GetSymbols(exchangeCode string) (symbols []models.Symbol, extErr exterrors.ExtError)
+	// GetSymbols publishes available symbols for exchange to rabbit
+	GetSymbols(exchangeCode string) (extErr exterrors.ExtError)
 
 	// GetCandles returns candles for symbol with resolution for period
 	GetCandles(symbol string, resolution models.CandleResolution,

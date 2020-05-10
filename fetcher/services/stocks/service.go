@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/eugeneradionov/stocks/fetcher/config"
+	"github.com/eugeneradionov/stocks/fetcher/services/rabbitmq"
 	"github.com/eugeneradionov/stocks/fetcher/services/stocks/adapters"
 	"github.com/eugeneradionov/stocks/fetcher/services/stocks/adapters/finnhub"
 )
@@ -13,6 +14,7 @@ import (
 type service struct {
 	httpClient *http.Client
 	adapter    adapters.Interface
+	rabbitSrv  rabbitmq.Service
 }
 
 var (
@@ -20,7 +22,7 @@ var (
 	once = &sync.Once{}
 )
 
-func New(cfg config.Stocks, httpClient *http.Client) (_ Service, err error) {
+func New(cfg config.Stocks, httpClient *http.Client, rabbitSrv rabbitmq.Service) (_ Service, err error) {
 	var adapter adapters.Interface
 
 	once.Do(func() {
@@ -32,6 +34,7 @@ func New(cfg config.Stocks, httpClient *http.Client) (_ Service, err error) {
 		srv = service{
 			httpClient: httpClient,
 			adapter:    adapter,
+			rabbitSrv:  rabbitSrv,
 		}
 	})
 
