@@ -1,0 +1,22 @@
+{
+  "app_name": "api",
+  "log_preset": "development",
+  "listen_url": ":8080",
+  "postgres": {
+    "host": "localhost",
+    "port": "5432",
+    "database": "stocks",
+    "user": "postgres",
+    "password": "12345",
+    "pool_size": 10,
+    "max_retries": 5,
+    "read_timeout": "10s",
+    "write_timeout": "10s"
+  },
+  "rabbitmq": {
+    "host": "localhost",
+    "port": "5672",
+    "user": "rabbit",
+    "password": "12345"
+  }
+}
