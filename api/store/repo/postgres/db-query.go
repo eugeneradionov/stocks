@@ -33,7 +33,7 @@ func (q *DBQuery) Rollback() error {
 	return errors.New("rollback failed: not in Tx")
 }
 
-// RollbackTx is the wrapper for graceful transaction rollback
+// RollbackTx is the wrapper for graceful transaction rollback.
 func (q *DBQuery) RollbackTx(info string) {
 	err := q.Rollback()
 	if err != nil {

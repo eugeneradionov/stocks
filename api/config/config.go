@@ -14,9 +14,10 @@ func Load(fileName string) error {
 
 type (
 	Config struct {
-		AppName   string `json:"app_name" envconfig:"API_APP_NAME" default:"api"`
-		LogPreset string `json:"log_preset" envconfig:"API_LOG_PRESET" default:"development"`
-		ListenURL string `json:"listen_url" envconfig:"API_LISTEN_URL" default:":8080"`
+		AppName            string `json:"app_name" envconfig:"API_APP_NAME" default:"api"`
+		LogPreset          string `json:"log_preset" envconfig:"API_LOG_PRESET" default:"development"`
+		ListenURL          string `json:"listen_url" envconfig:"API_LISTEN_URL" default:":8080"`
+		PaginationMaxLimit int64  `json:"pagination_max_limit" envconfig:"API_PAGINATION_MAX_LIMIT" default:"1000"`
 
 		Postgres Postgres `json:"postgres"`
 		RabbitMQ RabbitMQ `json:"rabbitmq"`

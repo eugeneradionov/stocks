@@ -2,6 +2,7 @@
   "app_name": "api",
   "log_preset": "development",
   "listen_url": ":8080",
+  "pagination_max_limit": 1000,
   "postgres": {
     "host": "localhost",
     "port": "5432",

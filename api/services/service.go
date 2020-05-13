@@ -28,6 +28,9 @@ func Get() Service {
 func (srv serviceRepo) Stocks() stocks.Service {
 	return srv.stocksSrv
 }
+func (srv serviceRepo) Symbols() symbols.Service {
+	return srv.symbolsSrv
+}
 
 func Load(cfg *config.Config, rabbitCli *rabbit.Rabbit) (err error) {
 	once.Do(func() {

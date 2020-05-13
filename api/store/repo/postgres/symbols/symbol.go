@@ -19,10 +19,21 @@ func (dao symbolsDAO) WithTx(tx *postgres.DBQuery) DAO {
 	return &symbolsDAO{q: tx}
 }
 
+func (dao symbolsDAO) Get(limit, offset int) (symbols []models.Symbol, err error) {
+	err = dao.q.Model(&symbols).
+		Limit(limit).
+		Offset(offset).
+		Order("symbol ASC").
+		Select()
+
+	return symbols, err
+}
+
 func (dao symbolsDAO) GetByName(name string) (symbol models.Symbol, err error) {
 	err = dao.q.Model(&symbol).
-		Where("symbol = ?", name).
-		First()
+		Where(`"symbol"."symbol" = ?`, name).
+		Limit(1).
+		Select()
 
 	return symbol, err
 }

@@ -4,6 +4,8 @@ import (
 	"sync"
 
 	"github.com/eugeneradionov/stocks/api/services/rabbitmq"
+	"github.com/eugeneradionov/stocks/api/store/repo"
+	"github.com/eugeneradionov/stocks/api/store/repo/postgres/symbols"
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
 )
@@ -11,6 +13,8 @@ import (
 type service struct {
 	rabbitSrv rabbitmq.Service
 	symbolsCh *amqp.Channel
+
+	symbolsDAO symbols.DAO
 }
 
 var (
@@ -27,8 +31,9 @@ func New(rabbitSrv rabbitmq.Service) (_ Service, err error) {
 		}
 
 		srv = service{
-			rabbitSrv: rabbitSrv,
-			symbolsCh: symbolsCh,
+			rabbitSrv:  rabbitSrv,
+			symbolsCh:  symbolsCh,
+			symbolsDAO: repo.Get().Symbols(),
 		}
 	})
 

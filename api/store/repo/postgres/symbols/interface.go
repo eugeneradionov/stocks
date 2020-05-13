@@ -6,8 +6,13 @@ import (
 )
 
 type DAO interface {
+	// WithTx returns new DAO with injected tx
 	WithTx(tx *postgres.DBQuery) DAO
 
+	// Get returns list of symbols with pagination
+	Get(limit, offset int) (symbols []models.Symbol, err error)
+
+	// GetByName returns symbol by name if any
 	GetByName(name string) (symbol models.Symbol, err error)
 
 	Insert(symbol models.Symbol) (_ models.Symbol, err error)

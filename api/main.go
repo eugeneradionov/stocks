@@ -2,8 +2,11 @@ package main
 
 import (
 	"log"
+	"net/http"
+	"os"
 
 	"github.com/eugeneradionov/stocks/api/config"
+	"github.com/eugeneradionov/stocks/api/handlers"
 	"github.com/eugeneradionov/stocks/api/logger"
 	"github.com/eugeneradionov/stocks/api/services"
 	"github.com/eugeneradionov/stocks/api/store/repo"
@@ -14,6 +17,7 @@ import (
 
 const defaultConfigPath = "config.json"
 
+// nolint
 func main() {
 	err := config.Load(defaultConfigPath)
 	if err != nil {
@@ -47,12 +51,20 @@ func main() {
 
 	extErr := services.Get().Stocks().ConsumeAll()
 	if extErr != nil {
-		panic(extErr)
+		logger.Get().Fatal("Failed to consume stocks data", zap.Error(extErr))
 	}
 
-	// TODO: remove
-	forever := make(chan struct{})
-	<-forever
+	server := &http.Server{
+		Addr:    config.Get().ListenURL,
+		Handler: handlers.NewRouter(),
+	}
+
+	logger.Get().Info("Listening...", zap.String("listen_url", config.Get().ListenURL))
+	err = server.ListenAndServe()
+	if err != nil {
+		logger.Get().Error("Failed to initialize HTTP server", zap.Error(err))
+		os.Exit(1)
+	}
 
 	// symbol := models.Symbol{
 	// 	Description:   "test description",
