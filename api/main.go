@@ -71,21 +71,4 @@ func main() {
 		logger.Get().Error("Failed to initialize HTTP server", zap.Error(err))
 		os.Exit(1)
 	}
-
-	// symbol := models.Symbol{
-	// 	Description:   "test description",
-	// 	DisplaySymbol: "TST",
-	// 	Symbol:        "TST",
-	// }
-	// res, err := repo.Get().Symbols().Insert(symbol)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	//
-	// res, err = repo.Get().Symbols().GetByName("TST")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	//
-	// fmt.Println(res) // TODO: REMOVE
 }
