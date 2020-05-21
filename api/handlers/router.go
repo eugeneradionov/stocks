@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/eugeneradionov/stocks/api/handlers/candles"
 	"github.com/eugeneradionov/stocks/api/handlers/middlewares"
 	"github.com/eugeneradionov/stocks/api/handlers/symbols"
 	"github.com/go-chi/chi"
@@ -16,6 +17,8 @@ func NewRouter() *chi.Mux {
 	r.Route("/symbols", func(r chi.Router) {
 		r.Get("/", symbols.GetList)
 		r.Get("/{symbolName}", symbols.GetByName)
+
+		r.Post("/{symbolName}/candles", candles.Get)
 	})
 
 	return r

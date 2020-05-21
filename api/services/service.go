@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/eugeneradionov/stocks/api/config"
+	"github.com/eugeneradionov/stocks/api/services/candles"
 	"github.com/eugeneradionov/stocks/api/services/rabbitmq"
 	"github.com/eugeneradionov/stocks/api/services/stocks"
 	"github.com/eugeneradionov/stocks/api/services/symbols"
@@ -18,6 +19,7 @@ var (
 type serviceRepo struct {
 	rabbitSrv  rabbitmq.Service
 	symbolsSrv symbols.Service
+	candlesSrv candles.Service
 	stocksSrv  stocks.Service
 }
 
@@ -30,6 +32,10 @@ func (srv serviceRepo) Stocks() stocks.Service {
 }
 func (srv serviceRepo) Symbols() symbols.Service {
 	return srv.symbolsSrv
+}
+
+func (srv serviceRepo) Candles() candles.Service {
+	return srv.candlesSrv
 }
 
 func Load(cfg *config.Config, rabbitCli *rabbit.Rabbit) (err error) {
@@ -52,9 +58,16 @@ func Load(cfg *config.Config, rabbitCli *rabbit.Rabbit) (err error) {
 			return
 		}
 
+		candlesSrv, e := candles.New(rabbitSrv)
+		if e != nil {
+			err = e
+			return
+		}
+
 		srvRepo = serviceRepo{
 			rabbitSrv:  rabbitSrv,
 			symbolsSrv: symbolsSrv,
+			candlesSrv: candlesSrv,
 			stocksSrv:  stocksSrv,
 		}
 	})

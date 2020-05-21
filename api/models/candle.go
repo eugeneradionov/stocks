@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type CandleResolution string
 
 const (
@@ -11,26 +13,40 @@ const (
 	Month          CandleResolution = "M"
 )
 
+var CandleResolutionMap = map[CandleResolution]struct{}{
+	Minute:         {},
+	FiveMinutes:    {},
+	FifteenMinutes: {},
+	Day:            {},
+	Week:           {},
+	Month:          {},
+}
+
 type Candle struct {
+	Symbol     string           `json:"symbol"`
+	Resolution CandleResolution `json:"resolution"`
+	From       time.Time        `json:"from"`
+	To         time.Time        `json:"to"`
+
+	Data CandleData `json:"data"`
+}
+
+type CandleData struct {
 	// Open - open prices
-	Open []float32 `json:"o"`
+	Open []float32 `json:"open"`
 
 	// Close - close prices
-	Close []float32 `json:"c"`
+	Close []float32 `json:"close"`
 
 	// High - high prices
-	High []float32 `json:"h"`
+	High []float32 `json:"high"`
 
 	// Low - low prices
-	Low []float32 `json:"l"`
+	Low []float32 `json:"low"`
 
 	// Volume - volume data
-	Volume []int `json:"v"`
+	Volume []int `json:"volume"`
 
 	// List of timestamps in UNIX format
-	Timestamps []int64 `json:"t"`
-
-	// Status of the response.
-	// This field can either be `ok` or `no_data`.
-	Status string `json:"s"`
+	Timestamps []int64 `json:"timestamps"`
 }

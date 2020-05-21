@@ -3,6 +3,7 @@ package repo
 import (
 	"sync"
 
+	"github.com/eugeneradionov/stocks/api/store/repo/postgres/candles"
 	"github.com/eugeneradionov/stocks/api/store/repo/postgres/symbols"
 )
 
@@ -12,7 +13,8 @@ var (
 )
 
 type postgresRepo struct {
-	symbolsRepo symbols.DAO
+	symbolsDAO symbols.DAO
+	candlesDAO candles.DAO
 }
 
 func Get() Repo {
@@ -22,7 +24,8 @@ func Get() Repo {
 func Load() (err error) {
 	once.Do(func() {
 		repo = postgresRepo{
-			symbolsRepo: symbols.NewSymbolsDAO(),
+			symbolsDAO: symbols.NewSymbolsDAO(),
+			candlesDAO: candles.NewCandlesDAO(),
 		}
 	})
 
@@ -30,5 +33,9 @@ func Load() (err error) {
 }
 
 func (r postgresRepo) Symbols() symbols.DAO {
-	return r.symbolsRepo
+	return r.symbolsDAO
+}
+
+func (r postgresRepo) Candles() candles.DAO {
+	return r.candlesDAO
 }

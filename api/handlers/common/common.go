@@ -3,6 +3,7 @@ package common
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -10,6 +11,8 @@ import (
 	exterrors "github.com/eugeneradionov/ext-errors"
 	"github.com/eugeneradionov/stocks/api/config"
 	"github.com/eugeneradionov/stocks/api/logger"
+	"github.com/eugeneradionov/stocks/api/validator"
+	v "github.com/go-playground/validator/v10"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
 )
@@ -34,6 +37,60 @@ func SendRawResponse(w http.ResponseWriter, statusCode int, binBody []byte) {
 	if err != nil {
 		logger.Get().Error("failed to write response body", zap.Error(err))
 	}
+}
+
+// ProcessRequestBody unmarshal and validate request body and sends errors if any
+func ProcessRequestBody(w http.ResponseWriter, r *http.Request, body interface{}) error {
+	extErr := UnmarshalRequestBody(r, body)
+	if extErr != nil {
+		SendExtError(w, extErr)
+		return extErr
+	}
+
+	httpErrs := ValidateRequestBody(r, body)
+	if httpErrs != nil {
+		SendExtErrors(w, http.StatusUnprocessableEntity, httpErrs)
+		return httpErrs
+	}
+
+	return nil
+}
+
+// UnmarshalRequestBody unmarshals request body
+func UnmarshalRequestBody(r *http.Request, body interface{}) exterrors.ExtError {
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		serverError := exterrors.NewInternalServerErrorError(errors.New("read JSON body"))
+
+		logger.WithCtxValue(r.Context()).Error("Invalid request body", zap.Error(err))
+		return serverError
+	}
+	defer r.Body.Close()
+
+	err = json.Unmarshal(reqBody, body)
+	if err != nil {
+		serverError := exterrors.NewInternalServerErrorError(errors.New("parse JSON body"))
+		logger.WithCtxValue(r.Context()).Error("Invalid JSON request body",
+			zap.Error(err), zap.String("Corrupted JSON", string(reqBody)))
+
+		return serverError
+	}
+
+	return nil
+}
+
+// ValidateRequestBody uses validator to validate request body
+func ValidateRequestBody(r *http.Request, body interface{}) exterrors.ExtErrors {
+	err := validator.Get().Struct(body)
+	if err != nil {
+		validationErrors := err.(v.ValidationErrors)
+		serverError := validator.FormatErrors(validationErrors)
+
+		logger.WithCtxValue(r.Context()).Info("request body validation failed", zap.Error(err))
+		return serverError
+	}
+
+	return nil
 }
 
 // SendExtError sends extError with code selected based on the ErrorCode.

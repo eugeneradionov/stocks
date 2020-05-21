@@ -24,6 +24,10 @@ func Get() Service {
 	return srv
 }
 
+func (srv serviceRepo) RabbitMQ() rabbitmq.Service {
+	return srv.rabbit
+}
+
 func (srv serviceRepo) Stocks() stocks.Service {
 	return srv.stocks
 }

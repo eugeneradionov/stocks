@@ -32,11 +32,16 @@ type (
 	Stocks struct {
 		Adapter string  `json:"adapter" envconfig:"FETCHER_STOCKS_ADAPTER" default:"finnhub"`
 		Finnhub Finnhub `json:"finnhub"`
+		Symbols Symbols `json:"symbols"`
 	}
 
 	Finnhub struct {
 		BaseURL string `json:"base_url" envconfig:"FETCHER_FINNHUB_BASE_URL" default:"https://finnhub.io/api/v1"`
 		Token   string `json:"token" envconfig:"FETCHER_FINNHUB_TOKEN"`
+	}
+
+	Symbols struct {
+		RefreshFreq cfg.Duration `json:"refresh_freq" envconfig:"FETCHER_REFRESH_FREQ" default:"1h"`
 	}
 
 	RabbitMQ struct {

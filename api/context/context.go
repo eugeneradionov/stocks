@@ -2,8 +2,6 @@ package context
 
 import (
 	"context"
-
-	"github.com/eugeneradionov/stocks/api/logger"
 )
 
 type contextKey string
@@ -15,7 +13,6 @@ const (
 func GetRequestID(ctx context.Context) (value string) {
 	value, ok := ctx.Value(requestIDKey).(string)
 	if !ok {
-		logger.Get().Error("get request id from context")
 		return ""
 	}
 

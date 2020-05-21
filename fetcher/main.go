@@ -32,4 +32,19 @@ func main() {
 	if err != nil {
 		logger.Get().Fatal("Failed to load services", zap.Error(err))
 	}
+
+	// setup delayed job for symbols refreshing for US exchange
+	services.Get().Stocks().RefreshSymbols(config.Get().Stocks.Symbols, "US")
+
+	go func() {
+		e := services.Get().RabbitMQ().ListenCandlesRPC(services.Get().Stocks().ProcessCandlesRPC)
+		if e != nil {
+			logger.Get().Fatal("failed to start candles RPC listener", zap.Error(e))
+		}
+	}()
+
+	logger.Get().Info("Services started successfully")
+
+	forever := make(chan struct{})
+	<-forever
 }

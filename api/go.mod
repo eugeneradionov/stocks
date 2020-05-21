@@ -8,6 +8,7 @@ require (
 	github.com/eugeneradionov/logger v0.0.0-20200508135107-e2bdb7de536a
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-pg/pg/v9 v9.1.6
+	github.com/go-playground/validator/v10 v10.2.0
 	github.com/google/uuid v1.1.1
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1

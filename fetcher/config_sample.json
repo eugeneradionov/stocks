@@ -10,6 +10,9 @@
     "finnhub": {
       "base_url": "https://finnhub.io/api/v1",
       "token": "auth_token"
+    },
+    "symbols": {
+      "refresh_freq": "1h"
     }
   },
   "rabbitmq": {

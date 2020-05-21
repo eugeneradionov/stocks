@@ -8,7 +8,8 @@ import (
 )
 
 type service struct {
-	rabbitCli      *rabbitmq.Rabbit
+	rabbitCli *rabbitmq.Rabbit
+
 	exchangesQueue *amqp.Queue
 	symbolsQueue   *amqp.Queue
 }
@@ -33,14 +34,12 @@ func New(rabbitCli *rabbitmq.Rabbit) (_ Service, err error) {
 		if err != nil {
 			return
 		}
-
 		srv.exchangesQueue = &exchangesQueue
 
 		symbolsQueue, err = srv.DeclareSymbolsQueue()
 		if err != nil {
 			return
 		}
-
 		srv.symbolsQueue = &symbolsQueue
 	})
 

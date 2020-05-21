@@ -1,7 +1,7 @@
 package rabbitmq
 
 import (
-	"github.com/eugeneradionov/stocks/api/logger"
+	"github.com/eugeneradionov/stocks/fetcher/logger"
 	"github.com/streadway/amqp"
 	"go.uber.org/zap"
 )

@@ -12,6 +12,7 @@ import (
 	"github.com/eugeneradionov/stocks/api/store/repo"
 	"github.com/eugeneradionov/stocks/api/store/repo/postgres"
 	"github.com/eugeneradionov/stocks/api/transport/rabbitmq"
+	"github.com/eugeneradionov/stocks/api/validator"
 	"go.uber.org/zap"
 )
 
@@ -27,6 +28,11 @@ func main() {
 	err = logger.Load(config.Get())
 	if err != nil {
 		log.Fatalf("Failed to laod logger: %s", err.Error())
+	}
+
+	err = validator.Load()
+	if err != nil {
+		logger.Get().Error("Failed to load validator", zap.Error(err))
 	}
 
 	err = postgres.Load(config.Get().Postgres, logger.Get().Sugar())
