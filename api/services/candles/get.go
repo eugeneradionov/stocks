@@ -33,16 +33,9 @@ func (srv service) Get(
 	candles, err := srv.candlesDAO.Get(symbol, resolution, from, to)
 	if err != nil {
 		if err == pg.ErrNoRows {
-			candles, extErr = srv.getWithPRC(symbol, resolution, from, to)
+			candles, extErr = srv.getAndInsert(symbol, resolution, from, to)
 			if extErr != nil {
 				return models.Candle{}, extErr
-			}
-
-			candles, err = srv.candlesDAO.Insert(candles)
-			if err != nil {
-				return models.Candle{}, exterrors.NewInternalServerErrorError(
-					errors.Wrap(err, "insert candles"),
-				)
 			}
 
 			return candles, nil
@@ -52,6 +45,28 @@ func (srv service) Get(
 			errors.Wrapf(err, "get candles; symbol: '%s', resolution: '%s', from: '%s', to: '%s'",
 				symbol, resolution, from.String(), to.String(),
 			),
+		)
+	}
+
+	return candles, nil
+}
+
+func (srv service) getAndInsert(
+	symbol string,
+	resolution models.CandleResolution,
+	from, to time.Time,
+) (candles models.Candle, extErr exterrors.ExtError) {
+	candles, extErr = srv.getWithPRC(symbol, resolution, from, to)
+	if extErr != nil {
+		return models.Candle{}, extErr
+	}
+
+	var err error
+
+	candles, err = srv.candlesDAO.Insert(candles)
+	if err != nil {
+		return models.Candle{}, exterrors.NewInternalServerErrorError(
+			errors.Wrap(err, "insert candles"),
 		)
 	}
 

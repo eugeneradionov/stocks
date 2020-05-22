@@ -55,7 +55,6 @@ func Load() (err error) {
 		if err != nil {
 			return
 		}
-
 	})
 
 	return err
@@ -64,12 +63,4 @@ func Load() (err error) {
 func validateCandleResolution(fl v.FieldLevel) bool {
 	_, ok := models.CandleResolutionMap[models.CandleResolution(fl.Field().String())]
 	return ok
-}
-
-func validateRequired(field reflect.Value) bool {
-	return field.IsValid() && !isZeroValue(field)
-}
-
-func isZeroValue(field reflect.Value) bool {
-	return field.Interface() == reflect.Zero(field.Type()).Interface()
 }
