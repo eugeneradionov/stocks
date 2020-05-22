@@ -23,6 +23,6 @@ type Service interface {
 	// ProcessCandlesRPC handles candles RPC and writes back the response
 	ProcessCandlesRPC(ch *amqp.Channel, msg amqp.Delivery) exterrors.ExtError
 
-	// RefreshSymbols spawns goroutine and gets symbols for exchange code with specified timeout
+	// RefreshSymbols spawns goroutine and gets symbols for exchange code with specified timeout.
 	RefreshSymbols(cfg config.Symbols, exchangeCode string)
 }
