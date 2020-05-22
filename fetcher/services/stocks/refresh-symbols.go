@@ -8,7 +8,7 @@ import (
 	"go.uber.org/zap"
 )
 
-// RefreshSymbols spawns goroutine and gets symbols for exchange code with specified timeout
+// RefreshSymbols spawns goroutine and gets symbols for exchange code with specified timeout.
 func (srv service) RefreshSymbols(cfg config.Symbols, exchangeCode string) {
 	go func() {
 		extErr := srv.GetSymbols(exchangeCode)
