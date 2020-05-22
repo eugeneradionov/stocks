@@ -9,6 +9,7 @@ require (
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-pg/pg/v9 v9.1.6
 	github.com/go-playground/validator/v10 v10.2.0
+	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/google/uuid v1.1.1
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/pkg/errors v0.9.1

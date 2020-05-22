@@ -19,5 +19,10 @@
     "port": "5672",
     "user": "rabbit",
     "password": "12345"
+  },
+  "redis": {
+    "address": "localhost:6379",
+    "password":  "password",
+    "pool_size": 10
   }
 }

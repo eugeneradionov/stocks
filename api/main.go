@@ -11,6 +11,7 @@ import (
 	"github.com/eugeneradionov/stocks/api/services"
 	"github.com/eugeneradionov/stocks/api/store/repo"
 	"github.com/eugeneradionov/stocks/api/store/repo/postgres"
+	"github.com/eugeneradionov/stocks/api/store/repo/redis"
 	"github.com/eugeneradionov/stocks/api/transport/rabbitmq"
 	"github.com/eugeneradionov/stocks/api/validator"
 	"go.uber.org/zap"
@@ -38,6 +39,11 @@ func main() {
 	err = postgres.Load(config.Get().Postgres, logger.Get().Sugar())
 	if err != nil {
 		logger.Get().Fatal("Failed to connect to postgres", zap.Error(err))
+	}
+
+	err = redis.Load(config.Get().Redis)
+	if err != nil {
+		logger.Get().Fatal("Failed to connect to redis", zap.Error(err))
 	}
 
 	err = rabbitmq.Load(config.Get().RabbitMQ)

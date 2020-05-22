@@ -39,7 +39,7 @@ func SendRawResponse(w http.ResponseWriter, statusCode int, binBody []byte) {
 	}
 }
 
-// ProcessRequestBody unmarshal and validate request body and sends errors if any
+// ProcessRequestBody unmarshal and validate request body and sends errors if any.
 func ProcessRequestBody(w http.ResponseWriter, r *http.Request, body interface{}) error {
 	extErr := UnmarshalRequestBody(r, body)
 	if extErr != nil {
@@ -56,7 +56,7 @@ func ProcessRequestBody(w http.ResponseWriter, r *http.Request, body interface{}
 	return nil
 }
 
-// UnmarshalRequestBody unmarshals request body
+// UnmarshalRequestBody unmarshals request body.
 func UnmarshalRequestBody(r *http.Request, body interface{}) exterrors.ExtError {
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -79,7 +79,7 @@ func UnmarshalRequestBody(r *http.Request, body interface{}) exterrors.ExtError 
 	return nil
 }
 
-// ValidateRequestBody uses validator to validate request body
+// ValidateRequestBody uses validator to validate request body.
 func ValidateRequestBody(r *http.Request, body interface{}) exterrors.ExtErrors {
 	err := validator.Get().Struct(body)
 	if err != nil {

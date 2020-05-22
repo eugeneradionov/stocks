@@ -21,6 +21,7 @@ type (
 
 		Postgres Postgres `json:"postgres"`
 		RabbitMQ RabbitMQ `json:"rabbitmq"`
+		Redis    Redis    `json:"redis"`
 	}
 
 	Postgres struct {
@@ -40,5 +41,11 @@ type (
 		Port     string `json:"port" envconfig:"API_RABBITMQ_PORT" default:"5672"`
 		User     string `json:"user" envconfig:"API_RABBITMQ_USER" default:"rabbit"`
 		Password string `json:"password" envconfig:"API_RABBITMQ_PASSWORD" default:"12345"`
+	}
+
+	Redis struct {
+		Address  string `json:"address"   envconfig:"API_REDIS_ADDRESS"`
+		PoolSize int    `json:"pool_size" envconfig:"API_REDIS_POOL_SIZE" default:"10"`
+		Password string `json:"password"  envconfig:"API_REDIS_PASSWORD"  default:""`
 	}
 )
