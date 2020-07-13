@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS login_sessions (
     user_id UUID NOT NULL REFERENCES users(id),
 
     token_id UUID NOT NULL,
-    refresh_token varchar(64) NOT NULL,
+    refresh_token varchar NOT NULL,
     active bool NOT NULL DEFAULT true,
 
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),

@@ -32,6 +32,6 @@ func Load(cfg config.Redis) (err error) {
 	return err
 }
 
-func GetRedis() Cli {
+func Get() Cli {
 	return client
 }

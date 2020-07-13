@@ -56,7 +56,7 @@ func main() {
 		logger.Get().Fatal("Failed to initialize postgres repo", zap.Error(err))
 	}
 
-	err = services.Load(config.Get(), rabbitmq.Get())
+	err = services.Load(config.Get(), redis.Get(), rabbitmq.Get())
 	if err != nil {
 		logger.Get().Fatal("Failed to load services", zap.Error(err))
 	}

@@ -13,6 +13,12 @@ services:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: "5432"
       POSTGRES_DB: stocks
+  redis:
+    image: redis
+    container_name: redis
+    command: redis-server --requirepass UxkR853RadZAkQdk
+    ports:
+      - 6379:6379
   rabbitmq:
     image: rabbitmq:3.8.3-management-alpine
     container_name: rabbitmq

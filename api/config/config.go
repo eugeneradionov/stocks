@@ -19,13 +19,20 @@ type (
 		ListenURL          string `json:"listen_url" envconfig:"API_LISTEN_URL" default:":8080"`
 		PaginationMaxLimit int64  `json:"pagination_max_limit" envconfig:"API_PAGINATION_MAX_LIMIT" default:"1000"`
 
+		Token Token `json:"token"`
+
 		Postgres Postgres `json:"postgres"`
 		RabbitMQ RabbitMQ `json:"rabbitmq"`
 		Redis    Redis    `json:"redis"`
 	}
 
+	Token struct {
+		ExpirationTime cfg.Duration `json:"expiration_time" envconfig:"API_TOKEN_EXPIRATION_TIME" default:"24h"`
+		SecretKey      string       `json:"secret_key"      envconfig:"API_TOKEN_SECRET_KEY"      default:"SecretKey"`
+	}
+
 	Postgres struct {
-		Host         string       `json:"host"          envconfig:"POSTGRES_HOST"              default:"localhost"`
+		Host         string       `json:"host"          envconfig:"API_POSTGRES_HOST"          default:"localhost"`
 		Port         string       `json:"port"          envconfig:"API_POSTGRES_PORT"          default:"5432"`
 		Database     string       `json:"database"      envconfig:"API_POSTGRES_DATABASE"      default:"stocks"`
 		User         string       `json:"user"          envconfig:"API_POSTGRES_USER"          default:"postgres"`

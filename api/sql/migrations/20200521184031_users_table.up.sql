@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
 
     email text UNIQUE,
     password text NOT NULL,
+    salt varchar NOT NULL,
     name text NOT NULL,
 
     status user_status NOT NULL DEFAULT 'Inactive',

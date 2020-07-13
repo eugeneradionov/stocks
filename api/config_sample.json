@@ -24,5 +24,9 @@
     "address": "localhost:6379",
     "password":  "password",
     "pool_size": 10
+  },
+  "token": {
+    "expiration_time": "24h",
+    "secret_key": "secretKey"
   }
 }

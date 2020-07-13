@@ -1,7 +1,9 @@
 package models
 
+import "time"
+
 type CandleRequest struct {
 	Resolution CandleResolution `json:"resolution" validate:"candle_resolution"`
-	From       *JSONTime        `json:"from" validate:"required,gte"`
-	To         *JSONTime        `json:"to" validate:"required,gte,ltefield=From"`
+	From       *time.Time       `json:"from" validate:"required"`
+	To         *time.Time       `json:"to" validate:"required,gtefield=From"`
 }

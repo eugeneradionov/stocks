@@ -35,6 +35,10 @@ func SendRawResponse(w http.ResponseWriter, statusCode int, binBody []byte) {
 	w.WriteHeader(statusCode)
 	_, err := w.Write(binBody)
 	if err != nil {
+		if err == http.ErrBodyNotAllowed {
+			return
+		}
+
 		logger.Get().Error("failed to write response body", zap.Error(err))
 	}
 }
